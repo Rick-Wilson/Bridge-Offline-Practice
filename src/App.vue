@@ -91,7 +91,7 @@
           <div v-if="practice.state.auctionComplete" class="auction-complete">
             <h3>Auction Complete</h3>
             <div v-if="currentDeal?.commentary" class="full-commentary">
-              {{ currentDeal.commentary }}
+              {{ stripControlDirectives(currentDeal.commentary) }}
             </div>
             <button class="next-deal-btn" @click="nextDeal">
               Next Deal →
@@ -127,6 +127,7 @@
 <script setup>
 import { ref, computed, watch } from 'vue'
 import { parsePbn, getDealTitle } from './utils/pbnParser.js'
+import { stripControlDirectives } from './utils/cardFormatting.js'
 import { useBiddingPractice } from './composables/useBiddingPractice.js'
 
 import BridgeTable from './components/BridgeTable.vue'
@@ -144,9 +145,10 @@ const deals = ref([])
 const currentDealIndex = ref(0)
 
 // Bundled files (we'll add these later)
+const baseUrl = import.meta.env.BASE_URL
 const bundledFiles = ref([
-  { name: 'Cue-bid', url: '/data/Cue-bid.pbn' },
-  { name: 'Drury', url: '/data/Drury.pbn' }
+  { name: 'Cue-bid', url: `${baseUrl}data/Cue-bid.pbn` },
+  { name: 'Drury', url: `${baseUrl}data/Drury.pbn` }
 ])
 
 // Current deal

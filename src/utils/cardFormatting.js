@@ -167,3 +167,18 @@ export function getDistribution(hand) {
     .sort((a, b) => b - a)
     .join('-')
 }
+
+/**
+ * Strip PBN control directives from text for display
+ * Removes [BID xxx], [NEXT], and similar markers
+ * @param {string} text
+ * @returns {string} Cleaned text
+ */
+export function stripControlDirectives(text) {
+  if (!text) return ''
+  return text
+    .replace(/\[BID\s+[^\]]*\]/gi, '')
+    .replace(/\[NEXT\]/gi, '')
+    .replace(/\n{3,}/g, '\n\n')  // Collapse multiple newlines
+    .trim()
+}
